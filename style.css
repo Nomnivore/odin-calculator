@@ -1,0 +1,74 @@
+#calc {
+    margin: auto;
+    border: 1px solid black;
+    /* background-color: rgb(27, 27, 27); */
+    box-shadow: 1px 1px 2px 1px gainsboro;
+    width: 20rem;
+    height: 30rem;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+        "display display display display"
+        "nums nums nums ops"
+        "nums nums nums ops"
+        "nums nums nums ops"
+        "nums nums nums ops"
+        "control control control control";
+
+    column-gap: .25rem;
+    row-gap: .25rem;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.display {
+    grid-area: display;
+    width: 95%;
+    height: 95%;
+    margin: auto;
+
+    border: 1px solid blue;
+}
+
+.nums {
+    grid-area: nums;
+    /* margin-left: .5rem;
+    margin-top: .5rem; */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+}
+
+.nums button {
+    width: 30%;
+    height: 22.5%;
+}
+
+.ops {
+    grid-area: ops;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+}
+
+.ops button {
+    width: 90%;
+    height: 22.5%;
+}
+
+.control {
+    grid-area: control;
+    display: flex;
+    flex-flow: row-reverse;
+    justify-content: space-evenly;
+}
+
+.control button {
+    height: 90%;
+    width: 30%;
+}
