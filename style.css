@@ -3,8 +3,8 @@
     border: 1px solid black;
     /* background-color: rgb(27, 27, 27); */
     box-shadow: 1px 1px 2px 1px gainsboro;
-    width: 20rem;
-    height: 30rem;
+    width: 20em;
+    height: 30em;
     border-radius: 5px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -17,8 +17,8 @@
         "nums nums nums ops"
         "control control control control";
 
-    column-gap: .25rem;
-    row-gap: .25rem;
+    column-gap: .25em;
+    row-gap: .25em;
 }
 
 button:hover {
@@ -27,17 +27,19 @@ button:hover {
 
 .display {
     grid-area: display;
+    display: flex;
     width: 95%;
-    height: 95%;
+    height: 87.5%;
     margin: auto;
+    margin-bottom: 0;
 
     border: 1px solid blue;
 }
 
 .nums {
     grid-area: nums;
-    /* margin-left: .5rem;
-    margin-top: .5rem; */
+    /* margin-left: .5em;
+    margin-top: .5em; */
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
