@@ -56,10 +56,11 @@ button:hover {
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
+    align-content: space-evenly;
 }
 
 .ops button {
-    width: 90%;
+    width: 93.12%;
     height: 22.5%;
 }
 
