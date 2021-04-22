@@ -141,6 +141,12 @@ const opPressed = (id) => {
         memory.operator = signs[id];
         memory.last = 0;
         updateDisplay();
+        return
+    }
+    if (!memory.first && !memory.last) {
+        memory.first = "0"
+        memory.operator = signs[id]
+        updateDisplay();
     }
 };
 
