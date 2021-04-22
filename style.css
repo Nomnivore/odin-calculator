@@ -6,8 +6,9 @@
     --oper-text: black;
     --controls-color: rgb(212, 118, 118);
     --controls-text: black;
-    --display-color: rgb(192, 192, 192);
+    --display-color: rgb(207, 207, 207);
     --display-text: black;
+    --display-prev-text: rgb(88, 88, 88);
 
     margin: auto;
     /* border: 1px solid black; */
@@ -17,6 +18,7 @@
     width: 20em;
     height: 30em;
     border-radius: 5px;
+    padding: .25em;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -36,6 +38,7 @@
     background-color: whitesmoke;
     border: none;
     font-size: 2em;
+    font-weight: bold;
 }
 
 #calc button:hover,
@@ -45,10 +48,10 @@
 
 #calc .display {
     grid-area: display;
-    display: flex; /* probably want to change to a grid */
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 95%;
+    display: grid;
+    grid-template-rows: .8fr 1.2fr;
+    /* align-items:flex-end; */
+    width: 96.5%;
     height: 87.5%;
     margin: auto;
     margin-bottom: 0;
@@ -59,12 +62,20 @@
 }
 #calc .display span {
     text-align: right;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1em;
 }
 #calc .display #display {
     font-weight: bolder;
+    align-self: center;
+    font-size: 3em;
 }
 #calc .display #display-prev {
-    font-weight: lighter;
+    color: var(--display-prev-text);
+    font-weight:600;
+    align-self: flex-end;
+    font-size: 1.5em;
 }
 
 #calc .nums {
