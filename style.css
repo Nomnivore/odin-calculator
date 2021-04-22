@@ -1,8 +1,19 @@
 #calc {
+    --calc-bg-color: rgb(54, 54, 54);
+    --num-color: lightblue;
+    --num-text: black;
+    --oper-color: lightgreen;
+    --oper-text: black;
+    --controls-color: rgb(212, 118, 118);
+    --controls-text: black;
+    --display-color: rgb(192, 192, 192);
+    --display-text: black;
+
     margin: auto;
-    border: 1px solid black;
-    /* background-color: rgb(27, 27, 27); */
-    box-shadow: 1px 1px 2px 1px gainsboro;
+    /* border: 1px solid black; */
+    background-color: var(--calc-bg-color);
+    box-shadow: 1px 1px 3px 2px rgba(0, 0, 0, 0.5);
+    font-family: "Courier New", Courier, monospace;
     width: 20em;
     height: 30em;
     border-radius: 5px;
@@ -17,26 +28,46 @@
         "nums nums nums ops"
         "control control control control";
 
-    column-gap: .25em;
-    row-gap: .25em;
+    column-gap: 0.25em;
+    row-gap: 0.25em;
 }
 
-button:hover {
+#calc button {
+    background-color: whitesmoke;
+    border: none;
+    font-size: 2em;
+}
+
+#calc button:hover,
+#calc button:focus {
     cursor: pointer;
 }
 
-.display {
+#calc .display {
     grid-area: display;
-    display: flex;
+    display: flex; /* probably want to change to a grid */
+    flex-direction: column;
+    justify-content: flex-end;
     width: 95%;
     height: 87.5%;
     margin: auto;
     margin-bottom: 0;
+    background-color: var(--display-color);
+    color: var(--display-text);
 
     border: 1px solid blue;
 }
+#calc .display span {
+    text-align: right;
+}
+#calc .display #display {
+    font-weight: bolder;
+}
+#calc .display #display-prev {
+    font-weight: lighter;
+}
 
-.nums {
+#calc .nums {
     grid-area: nums;
     /* margin-left: .5em;
     margin-top: .5em; */
@@ -46,12 +77,14 @@ button:hover {
     align-content: space-evenly;
 }
 
-.nums button {
+#calc .nums button {
+    background: var(--num-color);
+    color: var(--num-text);
     width: 30%;
     height: 22.5%;
 }
 
-.ops {
+#calc .ops {
     grid-area: ops;
     display: flex;
     flex-flow: column;
@@ -59,19 +92,27 @@ button:hover {
     align-content: space-evenly;
 }
 
-.ops button {
+#calc .ops button {
+    background: var(--oper-color);
+    color: var(--oper-text);
     width: 93.12%;
     height: 22.5%;
 }
 
-.control {
+#calc .control {
     grid-area: control;
     display: flex;
     flex-flow: row-reverse;
     justify-content: space-evenly;
 }
 
-.control button {
+#calc .control button {
+    background: var(--controls-color);
+    color: var(--controls-text);
     height: 90%;
     width: 30%;
+}
+
+.container {
+    margin: auto;
 }
