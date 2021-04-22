@@ -1,3 +1,32 @@
+:root {
+    --header-size: 4rem;
+    --content-margin-top: 8rem;
+}
+
+body {
+    background-color: rgb(221, 221, 221);
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-size);
+    background: rgb(177, 177, 177);
+    display: flex;
+    flex-basis: 0;
+    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.5);
+
+}
+
+header h1 {
+    text-align: center;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(41, 41, 41);
+}
+
 #calc {
     --calc-bg-color: rgb(54, 54, 54);
     --num-color: lightblue;
@@ -133,5 +162,5 @@
 }
 
 .container {
-    margin-top: 2em;
+    margin-top: var(--content-margin-top);
 }
