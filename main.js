@@ -22,6 +22,11 @@ const displayPrev = document.getElementById("display-prev");
 const numbers = document.querySelectorAll(".number");
 const opers = document.querySelectorAll(".func");
 
+const btnEquals = document.getElementById("equals")
+const btnClear = document.getElementById("clear")
+const btnBack = document.getElementById("backspace")
+const btnNegative = document.getElementById("negative")
+
 function operate(num1, num2, oper) {
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
@@ -47,7 +52,6 @@ function updateDisplay() {
 
     // update based on current state in memory
     if (memory.solution !== "") {
-        console.log("ok");
         // solution set by equals operator, or chaining operators
         display.textContent = memory.solution;
         displayPrev.textContent = `${memory.first} ${memory.operator} ${memory.last}`;
@@ -69,67 +73,73 @@ function updateDisplay() {
 function getState() {
     // returns 'first' or 'last', to be used with memory.
     if (!memory.operator) {
-        return 'first'
+        return "first";
     } else {
-        return 'last'
+        return "last";
     }
 }
 
-numbers.forEach(
-    (num) =>
-        (num.onclick = () => {
-            if (memory.solution !== "") {
-                // reset solution
-                memory.solution = "";
-                memory.first = num.id;
-                memory.last = 0;
-                memory.operator = "";
-                updateDisplay();
-                return;
-            }
+const numPressed = (id) => {
+    if (memory.solution !== "") {
+        // reset solution
+        memory.solution = "";
+        memory.first = id;
+        memory.last = 0;
+        memory.operator = "";
+        updateDisplay();
+        return;
+    }
 
-            const state = getState()
-            if (memory[state] === 0) {
-                memory[state] = num.id
-            } else {
-                memory[state] = memory[state] + num.id
-            }
-            updateDisplay();
-        })
-);
+    const state = getState();
+    if (memory[state] === 0) {
+        memory[state] = id;
+    } else {
+        memory[state] = memory[state] + id;
+    }
+    updateDisplay();
+};
 
-opers.forEach((op) => {
-    op.textContent = signs[op.id]
-    op.onclick = () => {
-        // act based on state again
-        if (memory.solution !== "") {
-            // following last operation
-            memory.first = memory.solution;
-            memory.solution = "";
-            memory.last = 0;
-            memory.operator = signs[op.id];
-            updateDisplay();
-            return;
-        }
-        if (memory.first && !memory.last) {
-            // moves state to last num
-            memory.operator = signs[op.id];
-            updateDisplay();
-            return;
-        }
-        if (memory.first && memory.last) {
-            // chaining operations
-            memory.first = operate(memory.first, memory.last, memory.operator);
-            memory.operator = signs[op.id];
-            memory.last = 0;
-            updateDisplay();
-        }
+const opPressed = (id) => {
+    // act based on state again
+    if (memory.solution !== "") {
+        // following last operation
+        memory.first = memory.solution;
+        memory.solution = "";
+        memory.last = 0;
+        memory.operator = signs[id];
+        updateDisplay();
+        return;
+    }
+    if (memory.first && !memory.last) {
+        // moves state to last num
+        memory.operator = signs[id];
+        updateDisplay();
+        return;
+    }
+    if (memory.first && memory.last) {
+        // chaining operations
+        memory.first = operate(memory.first, memory.last, memory.operator);
+        memory.operator = signs[id];
+        memory.last = 0;
+        updateDisplay();
+    }
+};
+
+numbers.forEach((num) => {
+    num.onclick = () => {
+        numPressed(num.id);
     };
 });
 
-document.getElementById("equals").onclick = (event) => {
+opers.forEach((op) => {
+    op.textContent = signs[op.id];
+    op.onclick = () => {
+        opPressed(op.id);
+    };
+});
+
+btnEquals.onclick = (event) => {
     if (!memory.operator) return;
-    console.log("equals");
     //    first = (memory.first) ? memory.first : 0
     memory.last = memory.last ? memory.last : memory.first;
     memory.solution = operate(memory.first, memory.last, memory.operator);
@@ -137,7 +147,7 @@ document.getElementById("equals").onclick = (event) => {
     updateDisplay();
 };
 
-document.getElementById("clear").onclick = (event) => {
+btnClear.onclick = (event) => {
     memory.first = 0;
     memory.last = 0;
     memory.operator = "";
@@ -145,24 +155,42 @@ document.getElementById("clear").onclick = (event) => {
     updateDisplay();
 };
 
-document.getElementById("backspace").onclick = (event) => {
-    const state = getState()
+btnBack.onclick = (event) => {
+    const state = getState();
     if (memory[state]) {
-        console.log(memory[state])
-        memory[state] = memory[state].slice(0, -1)
+        memory[state] = memory[state].slice(0, -1);
     }
-    updateDisplay()
-}
+    updateDisplay();
+};
 
-document.getElementById("negative").onclick = (event) => {
-    console.log('pressed')
-    const state = getState()
+btnNegative.onclick = (event) => {
+    const state = getState();
     if (memory[state]) {
-        if (memory[state].startsWith('-')) {
-            memory[state] = memory[state].slice(1)
+        if (memory[state].startsWith("-")) {
+            memory[state] = memory[state].slice(1);
         } else {
-            memory[state] = '-' + memory[state]
+            memory[state] = "-" + memory[state];
         }
     }
-    updateDisplay()
-}
+    updateDisplay();
+};
+
+window.addEventListener("keydown", (event) => {
+    if (event.key.match(/[0-9]/)) {
+        document.getElementById(event.key).click()
+    } else if (event.key == "Enter") {
+        btnEquals.click()
+    } else if (event.key == "Backspace") {
+        btnBack.click()
+    } else if (event.key == "c") {
+        btnClear.click()
+    } else if (event.key == "/") {
+        document.getElementById("divide").click()
+    } else if (event.key == "*") {
+        document.getElementById("multiply").click()
+    } else if (event.key == "+") {
+        document.getElementById("add").click()
+    } else if (event.key == "-") {
+        document.getElementById("subtract").click()
+    }
+});
