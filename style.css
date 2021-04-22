@@ -39,6 +39,15 @@
     border: none;
     font-size: 2em;
     font-weight: bold;
+    transition: all .07s ease;
+}
+
+#calc button.pressed {
+    transform: scale(1.05);
+}
+
+#calc .ops button.highlight {
+    border: .1em solid rgb(255, 232, 101);
 }
 
 #calc button:hover,

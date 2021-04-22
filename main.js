@@ -22,21 +22,35 @@ const displayPrev = document.getElementById("display-prev");
 const numbers = document.querySelectorAll(".number");
 const opers = document.querySelectorAll(".func");
 
-const btnEquals = document.getElementById("equals")
-const btnClear = document.getElementById("clear")
-const btnBack = document.getElementById("backspace")
-const btnNegative = document.getElementById("negative")
+const btnEquals = document.getElementById("equals");
+const btnClear = document.getElementById("clear");
+const btnBack = document.getElementById("backspace");
+const btnNegative = document.getElementById("negative");
+const btnDeci = document.getElementById("decimal");
+
+function expo(x) {
+    if (x.toString().length > 8) {
+        return parseFloat(x).toExponential(4);
+    }
+    return x;
+}
+
+function getPropName(obj, value) {
+    for (let prop in obj) {
+        if (obj[prop] == value) return prop;
+    }
+}
 
 function operate(num1, num2, oper) {
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
     switch (oper) {
         case signs.add:
-            return (num1 + num2).toString();
+            return expo(num1 + num2).toString();
         case signs.subtract:
-            return (num1 - num2).toString();
+            return expo(num1 - num2).toString();
         case signs.multiply:
-            return (num1 * num2).toString();
+            return expo(num1 * num2).toString();
         case signs.divide:
             if (num2 === 0) return "ha haa.";
             return (num1 / num2).toString();
@@ -49,6 +63,7 @@ function updateDisplay() {
     // return to blank slate first
     display.textContent = "";
     displayPrev.textContent = "";
+    opers.forEach((op) => op.classList.remove("highlight"));
 
     // update based on current state in memory
     if (memory.solution !== "") {
@@ -66,6 +81,10 @@ function updateDisplay() {
         // during second number entry
         displayPrev.innerHTML = `${memory.first} ${memory.operator}&nbsp;`;
         display.textContent = memory.last ? memory.last : "";
+
+        document
+            .getElementById(getPropName(signs, memory.operator))
+            .classList.add("highlight");
         return;
     }
 }
@@ -128,6 +147,7 @@ const opPressed = (id) => {
 numbers.forEach((num) => {
     num.onclick = () => {
         numPressed(num.id);
+        num.classList.add("pressed");
     };
 });
 
@@ -135,6 +155,7 @@ opers.forEach((op) => {
     op.textContent = signs[op.id];
     op.onclick = () => {
         opPressed(op.id);
+        op.classList.add("pressed");
     };
 });
 
@@ -143,27 +164,29 @@ btnEquals.onclick = (event) => {
     //    first = (memory.first) ? memory.first : 0
     memory.last = memory.last ? memory.last : memory.first;
     memory.solution = operate(memory.first, memory.last, memory.operator);
-    console.log(memory);
     updateDisplay();
+    btnEquals.classList.add("pressed");
 };
 
-btnClear.onclick = (event) => {
+btnClear.onclick = () => {
     memory.first = 0;
     memory.last = 0;
     memory.operator = "";
     memory.solution = "";
     updateDisplay();
+    btnClear.classList.add("pressed");
 };
 
-btnBack.onclick = (event) => {
+btnBack.onclick = () => {
     const state = getState();
     if (memory[state]) {
         memory[state] = memory[state].slice(0, -1);
     }
     updateDisplay();
+    btnBack.classList.add("pressed");
 };
 
-btnNegative.onclick = (event) => {
+btnNegative.onclick = () => {
     const state = getState();
     if (memory[state]) {
         if (memory[state].startsWith("-")) {
@@ -173,24 +196,45 @@ btnNegative.onclick = (event) => {
         }
     }
     updateDisplay();
+    btnNegative.classList.add("pressed");
 };
+
+btnDeci.onclick = () => {
+    const state = getState();
+    if (memory[state] && memory[state].indexOf(".") > -1) return;
+    if (memory[state]) {
+        memory[state] = memory[state] + ".";
+    } else {
+        memory[state] = "0.";
+    }
+    updateDisplay();
+    btnDeci.classList.add("pressed");
+};
+
+document.querySelectorAll("#calc button").forEach((btn) => {
+    btn.addEventListener("transitionend", () => {
+        btn.classList.remove("pressed");
+    });
+});
 
 window.addEventListener("keydown", (event) => {
     if (event.key.match(/[0-9]/)) {
-        document.getElementById(event.key).click()
+        document.getElementById(event.key).click();
     } else if (event.key == "Enter") {
-        btnEquals.click()
+        btnEquals.click();
     } else if (event.key == "Backspace") {
-        btnBack.click()
+        btnBack.click();
     } else if (event.key == "c") {
-        btnClear.click()
+        btnClear.click();
     } else if (event.key == "/") {
-        document.getElementById("divide").click()
+        document.getElementById("divide").click();
     } else if (event.key == "*") {
-        document.getElementById("multiply").click()
+        document.getElementById("multiply").click();
     } else if (event.key == "+") {
-        document.getElementById("add").click()
+        document.getElementById("add").click();
     } else if (event.key == "-") {
-        document.getElementById("subtract").click()
+        document.getElementById("subtract").click();
+    } else if (event.key == ".") {
+        btnDeci.click();
     }
 });
