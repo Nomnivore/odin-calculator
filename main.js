@@ -66,6 +66,15 @@ function updateDisplay() {
     }
 }
 
+function getState() {
+    // returns 'first' or 'last', to be used with memory.
+    if (!memory.operator) {
+        return 'first'
+    } else {
+        return 'last'
+    }
+}
+
 numbers.forEach(
     (num) =>
         (num.onclick = () => {
@@ -79,20 +88,11 @@ numbers.forEach(
                 return;
             }
 
-            if (!memory.operator) {
-                // current state is first number
-                if (memory.first === 0) {
-                    memory.first = num.id;
-                } else {
-                    memory.first = memory.first + num.id;
-                }
+            const state = getState()
+            if (memory[state] === 0) {
+                memory[state] = num.id
             } else {
-                // current state is last number
-                if (memory.last === 0) {
-                    memory.last = num.id;
-                } else {
-                    memory.last = memory.last + num.id;
-                }
+                memory[state] = memory[state] + num.id
             }
             updateDisplay();
         })
@@ -144,3 +144,25 @@ document.getElementById("clear").onclick = (event) => {
     memory.solution = "";
     updateDisplay();
 };
+
+document.getElementById("backspace").onclick = (event) => {
+    const state = getState()
+    if (memory[state]) {
+        console.log(memory[state])
+        memory[state] = memory[state].slice(0, -1)
+    }
+    updateDisplay()
+}
+
+document.getElementById("negative").onclick = (event) => {
+    console.log('pressed')
+    const state = getState()
+    if (memory[state]) {
+        if (memory[state].startsWith('-')) {
+            memory[state] = memory[state].slice(1)
+        } else {
+            memory[state] = '-' + memory[state]
+        }
+    }
+    updateDisplay()
+}
