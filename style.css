@@ -17,7 +17,6 @@ header {
     display: flex;
     flex-basis: 0;
     box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.5);
-
 }
 
 header h1 {
@@ -42,12 +41,12 @@ header h1 {
     margin: auto;
     /* border: 1px solid black; */
     background-color: var(--calc-bg-color);
-    box-shadow: .2em .2em .5em .1em rgba(0, 0, 0, 0.5);
+    box-shadow: 0.2em 0.2em 0.5em 0.1em rgba(0, 0, 0, 0.5);
     font-family: "Courier New", Courier, monospace;
     width: 20em;
     height: 30em;
-    border-radius: .65em;
-    padding: .25em;
+    border-radius: 0.65em;
+    padding: 0.25em;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -68,7 +67,7 @@ header h1 {
     border: none;
     font-size: 2em;
     font-weight: bold;
-    transition: all .07s ease;
+    transition: all 0.07s ease;
 }
 
 #calc button.pressed {
@@ -76,7 +75,7 @@ header h1 {
 }
 
 #calc .ops button.highlight {
-    border: .1em solid rgb(255, 232, 101);
+    border: 0.1em solid rgb(255, 232, 101);
 }
 
 #calc button:hover,
@@ -87,7 +86,7 @@ header h1 {
 #calc .display {
     grid-area: display;
     display: grid;
-    grid-template-rows: .8fr 1.2fr;
+    grid-template-rows: 0.8fr 1.2fr;
     width: 96.5%;
     height: 87.5%;
     margin: auto;
@@ -110,7 +109,7 @@ header h1 {
 }
 #calc .display #display-prev {
     color: var(--display-prev-text);
-    font-weight:600;
+    font-weight: 600;
     align-self: flex-start;
     font-size: 1.5em;
 }
