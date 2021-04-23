@@ -32,7 +32,7 @@ function expo(x) {
     if (x.toString().length > 8) {
         return parseFloat(x).toExponential(4);
     }
-    return x;
+    return parseFloat(x);
 }
 
 function getPropName(obj, value) {
@@ -69,7 +69,7 @@ function updateDisplay() {
     if (memory.solution !== "") {
         // solution set by equals operator, or chaining operators
         display.textContent = memory.solution;
-        displayPrev.textContent = `${memory.first} ${memory.operator} ${memory.last}`;
+        displayPrev.textContent = `${expo(memory.first)} ${memory.operator} ${expo(memory.last)}`;
         return;
     }
     if (memory.first && !memory.operator) {
@@ -79,7 +79,7 @@ function updateDisplay() {
     }
     if (memory.operator) {
         // during second number entry
-        displayPrev.innerHTML = `${memory.first} ${memory.operator}&nbsp;`;
+        displayPrev.innerHTML = `${expo(memory.first)} ${memory.operator}&nbsp;`;
         display.textContent = memory.last ? memory.last : "";
 
         document
@@ -98,13 +98,18 @@ function getState() {
     }
 }
 
+function resetState() {
+    memory.solution = "";
+    memory.first = 0;
+    memory.last = 0;
+    memory.operator = "";
+}
+
 const numPressed = (id) => {
     if (memory.solution !== "") {
         // reset solution
-        memory.solution = "";
+        resetState()
         memory.first = id;
-        memory.last = 0;
-        memory.operator = "";
         updateDisplay();
         return;
     }
@@ -175,15 +180,13 @@ btnEquals.onclick = (event) => {
 };
 
 btnClear.onclick = () => {
-    memory.first = 0;
-    memory.last = 0;
-    memory.operator = "";
-    memory.solution = "";
+    resetState()
     updateDisplay();
     btnClear.classList.add("pressed");
 };
 
 btnBack.onclick = () => {
+    if (memory.solution != "") resetState();
     const state = getState();
     if (memory[state]) {
         memory[state] = memory[state].slice(0, -1);
@@ -193,6 +196,7 @@ btnBack.onclick = () => {
 };
 
 btnNegative.onclick = () => {
+    if (memory.solution != "") resetState();
     const state = getState();
     if (memory[state]) {
         if (memory[state].startsWith("-")) {
@@ -206,6 +210,7 @@ btnNegative.onclick = () => {
 };
 
 btnDeci.onclick = () => {
+    if (memory.solution != '') resetState()
     const state = getState();
     if (memory[state] && memory[state].indexOf(".") > -1) return;
     if (memory[state]) {
